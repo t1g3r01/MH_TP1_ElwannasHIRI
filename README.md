@@ -1,6 +1,6 @@
 # MMH_PSO_ElwannasHIRI
 ### Followed process to build PSO algorithm using python
-0. [-] SetUp the Enviorement
+0. [ ] SetUp the Enviorement
       1. [x] Install [Python](https://www.python.org/downloads/)   
             * Version 3.6 ~ 3.8  Required by Streamlit library
       2. [ ] Install [Streamlit](https://www.streamlit.io/)
