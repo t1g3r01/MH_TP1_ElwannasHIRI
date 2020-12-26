@@ -23,9 +23,9 @@
 ## Build  [PSO](https://en.wikipedia.org/wiki/Particle_swarm_optimization) Algorithm
 ### 1.1 Understanding how the  [PSO](https://en.wikipedia.org/wiki/Particle_swarm_optimization) algorithm works 
 To get general idea about  algorithm I read these tutorials:
-      * [PSO Tutorial "swarmintelligence"](http://www.swarmintelligence.org/tutorials.php) 
-      * [Particle Swarm Optimization (PSO) by Mr.OMARI](https://drive.google.com/file/d/1obsX6IpaoL9sw-yi2Sr2XAq43MkkPEWx/view), 
-      * [The Traveling Salesman Problem (TSP)](https://www2.seas.gwu.edu/~simhaweb/champalg/tsp/tsp.html), very recomanded
+      1. [PSO Tutorial "swarmintelligence"](http://www.swarmintelligence.org/tutorials.php) 
+      2. [Particle Swarm Optimization (PSO) by Mr.OMARI](https://drive.google.com/file/d/1obsX6IpaoL9sw-yi2Sr2XAq43MkkPEWx/view), 
+      3. [The Traveling Salesman Problem (TSP)](https://www2.seas.gwu.edu/~simhaweb/champalg/tsp/tsp.html), very recomanded
 
 
 
