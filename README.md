@@ -3,7 +3,7 @@
 0. [ ] SetUp the Enviorement
       1. [x] Install [Python](https://www.python.org/downloads/)   
             * Version 3.6 ~ 3.8  Required by Streamlit library
-      2. [ ] Install [Streamlit](https://www.streamlit.io/)
+      2. [x] Install [Streamlit](https://www.streamlit.io/)
             * Follow the[intsructions](https://docs.streamlit.io/en/stable/) to install [Streamlit](https://www.streamlit.io/).
             * [Documentation](https://docs.streamlit.io/en/stable/getting_started.html)      
 1. [ ] Build [PSO](https://en.wikipedia.org/wiki/Particle_swarm_optimization) algorithm.
@@ -19,3 +19,4 @@
 
 
 
+>> iF_You_DoN'T_FiGHT_You_DoN'T_DeSeRVe_To_WiN
