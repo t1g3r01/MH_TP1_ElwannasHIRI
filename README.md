@@ -24,6 +24,18 @@
 ## Build  [PSO](https://en.wikipedia.org/wiki/Particle_swarm_optimization) Algorithm
 Thanks to [Marco](https://github.com/marcoscastro/tsp_pso) who build the system with random values and no GUI. I added some sections to adabt the algorithm to accept data from files and show the excution process.
 
+
+### usage 
+
+1. Download the data file.
+2. Count number of lines to be skipped 
+3. Run the algorithm "python3 tsp.py"
+4. enter the number of cities
+5. Enter the number of line to be skipped
+6. Enter the file name.
+7. Watch the results.
+
+
 ### 1.1 Understanding how the  [PSO](https://en.wikipedia.org/wiki/Particle_swarm_optimization) algorithm works 
 To get general idea about  algorithm I read these tutorials:
       1. [PSO Tutorial "swarmintelligence"](http://www.swarmintelligence.org/tutorials.php) 
