@@ -118,6 +118,7 @@ class Particle:
 		# velocity of a particle is a sequence of 4-tuple
 		# (1, 2, 1, 'beta') means SO(1,2), prabability 1 and compares with "beta"
 		self.velocity = []
+		
 
 	# set pbest
 	def setPBest(self, new_pbest):
@@ -176,6 +177,7 @@ class PSO:
 		self.particles = [] # list of particles
 		self.beta = beta # the probability that all swap operators in swap sequence (gbest - x(t-1))
 		self.alfa = alfa # the probability that all swap operators in swap sequence (pbest - x(t-1))
+		self.generationsSols = []
 		#print("init")
 
 		# initialized with a group of random particles (solutions)
@@ -230,8 +232,10 @@ class PSO:
 			#print("iterarion>> ",t)
 			# updates gbest (best particle of the population)
 			self.gbest = min(self.particles, key=attrgetter('cost_pbest_solution'))
-			v  = self.getGBest().getPBest()
-			if t % 10 == 0:
+			v  = self.getGBest().getCostPBest()
+			self.generationsSols.append(v)
+			
+			if t % 5 == 0:
 				print(t,"\n")
 				fxs = []
 				fys = []
@@ -240,11 +244,13 @@ class PSO:
 					fys.append(ys[i])
 				fxs.append(fxs[0])
 				fys.append(fys[0])
-				
+				fg = plt.figure(1)
 				plt.plot(fxs,fys)
 				plt.show(block=False)
-				plt.pause(2)
-				plt.close()
+				plt.pause(.1)
+				plt.clf()
+				# plt.pause(2)
+				
 				
 			
 			
@@ -316,7 +322,12 @@ class PSO:
 				if cost_current_solution < particle.getCostPBest():
 					particle.setPBest(solution_particle)
 					particle.setCostPBest(cost_current_solution)
+	
+		fig = plt.figure(2)
+		plt.plot([i for i in range(self.iterations)] ,self.generationsSols)
+		fig.show()
 		
+
 
 def ab_len(x1,x2,y1,y2,c1,c2):
     l = math.sqrt((x1-x2)**2+(y1-y2)**2)
@@ -362,7 +373,7 @@ if __name__ == "__main__":
 	
 
 	# creates a PSO instance
-	pso = PSO(graph, iterations=200, size_population=50, beta=0.1, alfa=0.1)
+	pso = PSO(graph, iterations=300, size_population=200, beta=0.2, alfa=0.7)
 	pso.run() # runs the PSO algorithm
 	pso.showsParticles() # shows the particles
 
@@ -372,13 +383,20 @@ if __name__ == "__main__":
 
 	fxs = []
 	fys = []
-	for i in pso.getGBest().getPBest():
+	# print(pso.getGBest()," GBEST", len(pso.getGBest()))
+	print(pso.getGBest().getPBest()," GPBEST ", len(pso.getGBest().getPBest()) )
+
+	for i in range(len(pso.getGBest().getPBest())):
+		print("appending")
 		fxs.append(xs[i])
 		fys.append(ys[i])
 	fxs.append(fxs[0])
 	fys.append(fys[0])
-	plt.title()
-	plt.plot(fxs,fys)
+
+	# plt.plot(fxs,fys)
+	plt.clf()
+	plt.plot([i for i in range(pso.iterations)] ,pso.generationsSols)
+	print("showing", pso.generationsSols)
 	plt.show()
 	'''
 	# random graph
@@ -390,3 +408,7 @@ if __name__ == "__main__":
 	##print('gbest: %s | cost: %d\n' % (pso_random_graph.getGBest().getPBest(), 
 					pso_random_graph.getGBest().getCostPBest()))
 	'''
+#TODO initial graph 
+#TODO points 
+#TODO alpha beta ... ta7rak 
+#TODO read file directly nichan 
