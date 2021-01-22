@@ -21,6 +21,7 @@ import altair
 import matplotlib.pyplot as plt
 import math
 import random
+import csv
 
 
 # class that represents a graph
@@ -234,9 +235,23 @@ class PSO:
 			self.gbest = min(self.particles, key=attrgetter('cost_pbest_solution'))
 			v  = self.getGBest().getCostPBest()
 			self.generationsSols.append(v)
-			
-			if t % 5 == 0:
-				print(t,"\n")
+			if t == 1:
+				print(t,"intial graph\n")
+				fxs = []
+				fys = []
+				for i in self.getGBest().getPBest():
+					fxs.append(xs[i])
+					fys.append(ys[i])
+				fxs.append(fxs[0])
+				fys.append(fys[0])
+				fg1 = plt.figure(3)
+				plt.plot(fxs,fys)
+				fg1.show()
+				plt.pause(1)
+				
+			if t % 20 == 0:
+				# print(t,"\n")
+				plt.clf()
 				fxs = []
 				fys = []
 				for i in self.getGBest().getPBest():
@@ -247,8 +262,9 @@ class PSO:
 				fg = plt.figure(1)
 				plt.plot(fxs,fys)
 				plt.show(block=False)
-				plt.pause(.1)
-				plt.clf()
+				
+				
+				plt.pause(.5)
 				# plt.pause(2)
 				
 				
@@ -323,9 +339,9 @@ class PSO:
 					particle.setPBest(solution_particle)
 					particle.setCostPBest(cost_current_solution)
 	
-		fig = plt.figure(2)
-		plt.plot([i for i in range(self.iterations)] ,self.generationsSols)
-		fig.show()
+		# fig = plt.figure(2)
+		# plt.plot([i for i in range(self.iterations)] ,self.generationsSols)
+		# fig.show()
 		
 
 
@@ -336,24 +352,48 @@ def ab_len(x1,x2,y1,y2,c1,c2):
 if __name__ == "__main__":
 	
 
-	nOfCities = int(input("enter the amount of cities"))
-	l_sk = int(input("enter the amount of lines to skip: "))
+
 	file_name = input("enter the file name: ")
-	graph = Graph(amount_vertices=nOfCities)
 	f = open(file_name+".tsp","r")
-	for i in range(l_sk):
-		print(f.readline())
+	
+	while f.readline() != "NODE_COORD_SECTION\n":
+		continue
+
+	nOfCities = 0
 	cities = []
 	ys = []
 	xs = []
-	for i in range(nOfCities):
-		city = str(f.readline()).split(" ")
-		#print(city)
+	line = f.readline()
+	while line !="EOF\n":
+		print(line)
+		nOfCities+=1
+		city = str(line).split(" ")
+		print(city)
 		cities.append(city[0])
 		xs.append(float(city[1]))
 		nys = city[2]
 		nys = nys.replace("\n","")
 		ys.append(float(nys))
+		line = f.readline()
+	
+	# f.seek(0)
+	# l_sk = int(input("enter the amount of lines to skip: "))
+	
+	graph = Graph(amount_vertices=nOfCities)
+	# f = open(file_name+".tsp","r")
+	# for i in range(l_sk):
+	# 	print(f.readline())
+	
+	# for i in range(nOfCities):
+	# 	city = str(line).split(" ")
+	# 	#print(city)
+	# 	cities.append(city[0])
+	# 	xs.append(float(city[1]))
+	# 	nys = city[2]
+	# 	nys = nys.replace("\n","")
+	# 	ys.append(float(nys))
+	initialGraph = plt.figure(4)
+	plt.plot(xs,ys,"bo")
 	for i in range(len(cities)):
 		x1 = xs[i]
 		y1 = ys[i]
@@ -370,34 +410,68 @@ if __name__ == "__main__":
 
 	# This graph is in the folder "images" of the repository.
 	# graph.showGraph()
-	
 
-	# creates a PSO instance
-	pso = PSO(graph, iterations=300, size_population=200, beta=0.2, alfa=0.7)
+	fxs = []
+	fys = []
+
+
+	pso = PSO(graph, iterations=300, size_population=200, beta=1, alfa=1)
 	pso.run() # runs the PSO algorithm
 	pso.showsParticles() # shows the particles
 
 	# shows the global best particle
 	#print('gbest: %s | cost: %d\n' % (pso.getGBest().getPBest(), pso.getGBest().getCostPBest()))
 
-
-	fxs = []
-	fys = []
+	# r = [str(i),str(j/10),str(k/10),str(pso.getGBest().getCostPBest()),str(pso.getGBest().getPBest())]
+	# print(r)
+	# writer.writerow(r)
 	# print(pso.getGBest()," GBEST", len(pso.getGBest()))
-	print(pso.getGBest().getPBest()," GPBEST ", len(pso.getGBest().getPBest()) )
+	# print(pso.getGBest().getPBest()," GPBEST ", len(pso.getGBest().getPBest()) )
 
+	# creates a PSO instance
+
+	conv = plt.figure(6)
+	plt.plot(fxs,fys)
+	plt.clf()
+	plt.plot([i for i in range(pso.iterations)] ,pso.generationsSols)
+	print("showing", pso.generationsSols)
+	conv.show()
+
+
+
+	fres = open("fres1.csv","w",newline="")
+	writer = csv.writer(fres)
+	d =  input("do you want to run it for 800 times ? 1/0")
+	if d == '1':
+		for i in range(10):
+			for j in range(1,10):
+				for k in range(1,10):
+					pso = PSO(graph, iterations=300, size_population=200, beta=k/10, alfa=j/10)
+					pso.run() # runs the PSO algorithm
+					pso.showsParticles() # shows the particles
+
+					# shows the global best particle
+					#print('gbest: %s | cost: %d\n' % (pso.getGBest().getPBest(), pso.getGBest().getCostPBest()))
+
+					r = [str(i),str(j/10),str(k/10),str(pso.getGBest().getCostPBest()),str(pso.getGBest().getPBest())]
+					print(r)
+					writer.writerow(r)
+					# print(pso.getGBest()," GBEST", len(pso.getGBest()))
+					# print(pso.getGBest().getPBest()," GPBEST ", len(pso.getGBest().getPBest()) )
+		fres.close()
 	for i in range(len(pso.getGBest().getPBest())):
 		print("appending")
 		fxs.append(xs[i])
 		fys.append(ys[i])
 	fxs.append(fxs[0])
 	fys.append(fys[0])
-
+	
+	# conv = plt.figure(4)
 	# plt.plot(fxs,fys)
-	plt.clf()
-	plt.plot([i for i in range(pso.iterations)] ,pso.generationsSols)
-	print("showing", pso.generationsSols)
-	plt.show()
+	# plt.clf()
+	# plt.plot([i for i in range(pso.iterations)] ,pso.generationsSols)
+	# print("showing", pso.generationsSols)
+	# conv.show()
 	'''
 	# random graph
 	##print('Random graph...')
@@ -408,7 +482,5 @@ if __name__ == "__main__":
 	##print('gbest: %s | cost: %d\n' % (pso_random_graph.getGBest().getPBest(), 
 					pso_random_graph.getGBest().getCostPBest()))
 	'''
-#TODO initial graph 
-#TODO points 
-#TODO alpha beta ... ta7rak 
+
 #TODO read file directly nichan 
